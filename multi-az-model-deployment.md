@@ -79,7 +79,7 @@ aws ec2 modify-subnet-attribute --subnet-id $SUBNET_ID2 --map-public-ip-on-launc
 
 ### 3. Create Security Group for instances
 
-Create a security group that allows traffic from the ALB (on port 8080) and SSH from your IP (or nothing for production):
+Create a security group that allows traffic from the ALB (on port 80) and SSH from your IP (or nothing for production):
 
 ```
 aws ec2 create-security-group --group-name intent-sg --description "Allow app and ssh" --vpc-id $VPC_ID --query 'GroupId' --output text --region $AWS_REGION
@@ -90,7 +90,7 @@ save as SG_ID
 Add rules:
 
 ```
-aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 8080 --cidr 0.0.0.0/0 --region $AWS_REGION
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 80 --cidr 0.0.0.0/0 --region $AWS_REGION
 ```
 
 Open SSH 
@@ -99,7 +99,7 @@ Open SSH
 aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 22 --cidr 0.0.0.0/0 --region $AWS_REGION
 ```
 
-Note: allowing 0.0.0.0/0 to port 8080 is simple for beginners but not ideal for production. The more secure pattern is:
+Note: allowing 0.0.0.0/0 to port 80 is simple for beginners but not ideal for production. The more secure pattern is:
 Create an ALB security group that allows inbound HTTP/HTTPS from the internet. Configure the instance security group to only allow inbound traffic from the ALB security group's ID.
 
 ### 5. Create Launch Template (includes user-data)
@@ -126,7 +126,7 @@ aws ec2 create-launch-template \
 - Create target group (instances will be registered automatically by ASG)
 
 ```
-aws elbv2 create-target-group --name mlops-target-group --protocol HTTP --port 8080 --vpc-id $VPC_ID --health-check-protocol HTTP --health-check-path /health --matcher HttpCode=200 --region $AWS_REGION
+aws elbv2 create-target-group --name mlops-target-group --protocol HTTP --port 80 --vpc-id $VPC_ID --health-check-protocol HTTP --health-check-path /health --matcher HttpCode=200 --region $AWS_REGION
 ```
 
 Save target group arn from output as TARGET_GROUP_ARN.

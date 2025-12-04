@@ -1,4 +1,4 @@
-# Deploy Intent Classifier on AWS Multi AZ (VPC + ASG + ALB) — CLI Steps
+# Deploy Intent Classifier on VMs (AWS VPC + ASG + ALB) — CLI Steps
 
 This simple step-by-step guide shows how to deploy your Intent Classifier model on AWS using EC2 instances in an Auto Scaling Group (ASG) behind an Application Load Balancer (ALB).
 

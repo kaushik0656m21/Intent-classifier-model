@@ -47,6 +47,6 @@
 - Add Ingress controller
 - Add Ingress
 
-11. Test the inference endpoint
+### Test the inference endpoint
 
 Use external IP + path to test the Flask model API

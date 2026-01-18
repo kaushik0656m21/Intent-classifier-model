@@ -20,10 +20,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -f Dockerfile -t mlops:latest .
+        run: docker build -f Dockerfile -t mlops:v1 .
 
       - name: Tag Docker image
-        run: docker tag mlops:latest ${{ secrets.DOCKER_USERNAME }}/mlops:latest
+        run: docker tag mlops:latest ${{ secrets.DOCKER_USERNAME }}/mlops:v1
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/mlops:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/mlops:v1

@@ -27,3 +27,8 @@ jobs:
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/mlops:latest
+
+        name: Deploying 
+        run: kubectl apply -f 04-k8s-manifests/deployment.yaml
+
+        

@@ -20,10 +20,18 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -f Dockerfile -t mlops:v1 .
+        run: docker build -f Dockerfile -t mlops:latest .  
 
       - name: Tag Docker image
-        run: docker tag mlops:v1 ${{ secrets.DOCKER_USERNAME }}/mlops:v1
+        run: docker tag mlops:latest ${{ secrets.DOCKER_USERNAME }}/mlops:latest
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/mlops:v1
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/mlops:latest
+
+      - name: Set kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_DATA }}" > ~/.kube/config
+
+      - name: Deploying 
+        run: kubectl apply -f 04-k8s-manifests/deployment.yaml
